@@ -10,10 +10,13 @@ discordBot.initBot();
 //discordBot.sendMessageToChannelByName("log", "Bot was started");
 
 string voiceChannel = "Allgemein";
-var voice = discordBot.connectToVoiceChannelByName(voiceChannel);
-//
-Thread.Sleep(10000);
 
-discordBot.disconnectFromVoiceChannel(voice);
+//discordBot.connectToVoiceChannelByString(voiceChannel);
+
+discordBot.playAudioFileInVoiceChannel("sound.wav", voiceChannel).Wait();
+
+//Thread.Sleep(30000);
+
+
 
 discordBot.stopBot();

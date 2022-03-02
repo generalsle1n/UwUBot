@@ -3,6 +3,7 @@ using Discord.Audio;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -96,17 +97,48 @@ namespace UwUBot
             return voiceChannel;
         }
 
-        public async void connectToVoiceChannel(SocketVoiceChannel voiceChannel)
+        private Stream createStreamFromAudioFile(string audioFile)
         {
-            IAudioClient audioInterface = await voiceChannel.ConnectAsync();
+            Process ffmmpegConversion = new Process();
+            ffmmpegConversion.StartInfo = new ProcessStartInfo
+            {
+                FileName = "ffmpeg",
+                ArgumentList =
+                {
+                    "-hide_banner",
+                    "-loglevel",
+                    "quiet",
+                    "-i",
+                    audioFile,
+                    "-ac",
+                    "2",
+                    "-f",
+                    "s16le",
+                    "-ar",
+                    "48000",
+                    "pipe:1"
+                },
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+            };
+            ffmmpegConversion.Start();
+            return ffmmpegConversion.StandardOutput.BaseStream;
+        }
+
+        public async Task playAudioFileInVoiceChannel(string audioFile, string channelName)
+        {
+            SocketVoiceChannel audioChannel = getVoiceChannelSocketByName(channelName);
+            IAudioClient audioInterface = await audioChannel.ConnectAsync();
 
             while (audioInterface.ConnectionState != ConnectionState.Connected)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
             }
 
-            //Proceed here
-            AudioOutStream stream = audioInterface.CreatePCMStream(AudioApplication.Music);
+            AudioOutStream audioStream = audioInterface.CreatePCMStream(AudioApplication.Music);
+            createStreamFromAudioFile(audioFile).CopyToAsync(audioStream).Wait();
+
+            audioStream.FlushAsync().Wait();
         }
     }
 }
