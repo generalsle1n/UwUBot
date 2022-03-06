@@ -16,6 +16,9 @@ namespace UwUBot
         private DiscordSocketClient currentBot = new DiscordSocketClient();
         private SocketGuild mainServer;
         private ulong serverID;
+        private string commandPrefix = "!";
+        private audioStream audioHandler = new audioStream();
+        private static string youtubeDomain = "youtube.com";
 
         public botControl(string botToken, ulong serverID)
         {
@@ -23,26 +26,28 @@ namespace UwUBot
             this.serverID = serverID;
         }
 
-        public void initBot()
+        public async Task initBotAsync()
         {
-
-            currentBot.LoginAsync(TokenType.Bot, botToken);
-            currentBot.StartAsync();
-
+            registerInteralEvents();
+            await currentBot.LoginAsync(TokenType.Bot, botToken);
+            await currentBot.StartAsync();
+            
             while (currentBot.ConnectionState != ConnectionState.Connected)
             {
                 Thread.Sleep(100);
             }
 
             mainServer = currentBot.GetGuild(serverID);
-
+            
             Console.WriteLine("Bot was started");
+
+            await Task.Delay(Timeout.Infinite);
         }
 
-        public void stopBot()
+        public async Task stopBotAsync()
         {
-            currentBot.LogoutAsync();
-            currentBot.StopAsync();
+            await currentBot.LogoutAsync();
+            await currentBot.StopAsync();
             Console.WriteLine("Bot was stopped");
         }
 
@@ -52,7 +57,7 @@ namespace UwUBot
 
             List<SocketGuildChannel> allServerChannel = mainServer.Channels.ToList();
             ulong channelID = 0;
-
+            
             while (allServerChannel.Count > counter)
             {
                 SocketGuildChannel currentChannel = allServerChannel[counter];
@@ -96,49 +101,58 @@ namespace UwUBot
 
             return voiceChannel;
         }
-
-        private Stream createStreamFromAudioFile(string audioFile)
+                
+        public async Task playAudioFileInVoiceChannel(string audioFile, ulong channelGuild)
         {
-            Process ffmmpegConversion = new Process();
-            ffmmpegConversion.StartInfo = new ProcessStartInfo
-            {
-                FileName = "ffmpeg",
-                ArgumentList =
-                {
-                    "-hide_banner",
-                    "-loglevel",
-                    "quiet",
-                    "-i",
-                    audioFile,
-                    "-ac",
-                    "2",
-                    "-f",
-                    "s16le",
-                    "-ar",
-                    "48000",
-                    "pipe:1"
-                },
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-            };
-            ffmmpegConversion.Start();
-            return ffmmpegConversion.StandardOutput.BaseStream;
-        }
-
-        public async Task playAudioFileInVoiceChannel(string audioFile, string channelName)
-        {
-            SocketVoiceChannel audioChannel = getVoiceChannelSocketByName(channelName);
+            SocketVoiceChannel audioChannel = getVoiceChannelSocketByUlong(channelGuild);
             IAudioClient audioInterface = await audioChannel.ConnectAsync();
-
             while (audioInterface.ConnectionState != ConnectionState.Connected)
             {
                 Thread.Sleep(100);
             }
 
             AudioOutStream audioStream = audioInterface.CreatePCMStream(AudioApplication.Music);
-            createStreamFromAudioFile(audioFile).CopyToAsync(audioStream).Wait();
-
+            audioHandler.createStreamFromAudioFile(audioFile).CopyToAsync(audioStream).Wait();
+            
             audioStream.FlushAsync().Wait();
+            audioChannel.DisconnectAsync().Wait();
+        }
+
+        private void registerInteralEvents()
+        {
+            currentBot.MessageReceived += interalCommandHandler;
+        }
+
+        private ulong getMessageAuthorCurrentVoiceChannel(SocketMessage message)
+        {
+            SocketGuildUser messageAuthor = (SocketGuildUser)message.Author;
+            return messageAuthor.VoiceChannel.Id;
+        }
+
+        private void playYoutubeMusicInChannel(Uri youtubeUrl, SocketMessage message)
+        {
+            if (youtubeUrl.Host.EndsWith(youtubeDomain))
+            {
+                string audioPath = audioHandler.downloadMusicFromUrl(youtubeUrl);
+                playAudioFileInVoiceChannel(audioPath, getMessageAuthorCurrentVoiceChannel(message)).Wait();
+                File.Delete(audioPath);
+            }
+        }
+
+        private async Task interalCommandHandler(SocketMessage message)
+        {
+            if (message.Content.StartsWith(commandPrefix))
+            {
+                string commandText = message.Content.Split("!")[1];
+                string[] commandArguments = commandText.Split(" ");
+                switch (commandArguments[0])
+                {
+                    case "play":
+                        Uri youtubeUrl = new Uri(commandArguments[1]);
+                        playYoutubeMusicInChannel(youtubeUrl, message);
+                        break;
+                }
+            }
         }
     }
 }
