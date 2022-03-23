@@ -1,6 +1,8 @@
-﻿using UwUBot;
+﻿using Discord;
+using Discord.WebSocket;
+using UwUBot;
 
-namespace UwUBot // Note: actual namespace depends on the project name.
+namespace UwUBot
 {
     internal class main
     {
@@ -9,17 +11,22 @@ namespace UwUBot // Note: actual namespace depends on the project name.
         public async Task MainAsync()
         {
             string botTokenFileName = "botToken.tkt";
-            ulong serverID = 799996272999792650;
             string botToken = System.IO.File.ReadAllText(botTokenFileName);
 
-            botControl discordBot = new botControl(botToken, serverID);
-            discordBot.initBotAsync().Wait();
+            //Create Bot and Setup and start
+            DiscordSocketClient uwuBot = new DiscordSocketClient();
+            await uwuBot.LoginAsync(TokenType.Bot, botToken);
+            await uwuBot.StartAsync();
+            
+            while(uwuBot.ConnectionState != ConnectionState.Connected)
+            {
+                Thread.Sleep(100);
+            }
 
-            Path.GetFullPath("sound.wav");
+            commandHanlder botCommandHanlder = new commandHanlder(uwuBot);
+            await botCommandHanlder.InstallCommandsAsync();
 
-            string voiceChannel = "Allgemein";
-
-            //discordBot.playAudioFileInVoiceChannel("sound.wav", voiceChannel).Wait();
+            await Task.Delay(-1);
         }
     }
 } 
