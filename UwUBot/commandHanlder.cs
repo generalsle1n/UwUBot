@@ -48,7 +48,7 @@ namespace UwUBot
                     SocketCommandContext commandContext = new SocketCommandContext(client, userMessage);
 
                     //Execute Command
-                    IResult commandResult= await commands.ExecuteAsync(commandContext, argPos, null);
+                    IResult commandResult = await commands.ExecuteAsync(commandContext, argPos, null);
 
                     if(commandResult.IsSuccess != true)
                     {
