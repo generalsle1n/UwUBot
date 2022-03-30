@@ -40,7 +40,6 @@ You get the secret from the developer portal
 ```
 cd C:\Folder
 UwUBot.exe
-
 ```
 
 ### Discord Commands
