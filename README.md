@@ -41,3 +41,12 @@ UwUBot.exe
 
 ```
 
+
+## Bugs
+
+If you find and problem/bug just feel free to create an isue on github
+
+## Acknowledgements
+
+ - [Discord.Net](https://github.com/discord-net/Discord.Nets)
+ - [YoutubeExplode](https://github.com/Tyrrrz/YoutubeExplode)
