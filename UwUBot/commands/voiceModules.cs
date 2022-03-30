@@ -13,7 +13,6 @@ namespace UwUBot.commands
     {
         private HttpClient httpClient = new HttpClient();
         private YoutubeClient ytClient = new YoutubeClient();
-        private IAudioChannel currentPlayingChannel;
         
         [Command("play", RunMode = RunMode.Async)]
         public async Task playMp3(string url)
