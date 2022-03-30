@@ -17,11 +17,10 @@ There are currently two sources that can be used to stream (An direct url to an 
 
 ### Prerequisite
 
-You need to setup an discord application in the discord developer portal
-https://discord.com/developers/applications/
+You need to setup an discord application in the discord [developer portal](https://discord.com/developers/applications/)
 
-Here you read how to setup an bot in the developer portal
-https://discordpy.readthedocs.io/en/stable/discord.html
+Here you [read](https://discordpy.readthedocs.io/en/stable/discord.html) how to setup an bot in the developer portal
+
 
 At the moment you just need the follwing permissions:
 "Send Message", "Manage Messaged", "Connect", "Speak"
@@ -48,5 +47,5 @@ If you find and problem/bug just feel free to create an isue on github
 
 ## Acknowledgements
 
- - [Discord.Net](https://github.com/discord-net/Discord.Net)
+ - [Discord.Net](https://github.com/discord-net/Discord.Nets)
  - [YoutubeExplode](https://github.com/Tyrrrz/YoutubeExplode)
