@@ -23,7 +23,10 @@ Here you [read](https://discordpy.readthedocs.io/en/stable/discord.html) how to 
 
 
 At the moment you just need the follwing permissions:
-"Send Message", "Manage Messaged", "Connect", "Speak"
+- "Send Message"
+- "Manage Messaged"
+- "Connect"
+- "Speak"
 
 
 ### Installation
@@ -40,7 +43,10 @@ UwUBot.exe
 
 ```
 
-
+### Discord Commands
+- !play (Url to an Audiofile)
+- !yt (Url to an Youtube video)
+- !stop (This command stops the current Audio Stream and the bot disconntects from the channel)
 ## Bugs
 
 If you find and problem/bug just feel free to create an isue on github
