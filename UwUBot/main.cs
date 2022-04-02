@@ -11,7 +11,7 @@ namespace UwUBot
         public async Task MainAsync()
         {
             string botTokenFileName = "botToken.tkt";
-            string botToken = System.IO.File.ReadAllText(botTokenFileName);
+            string botToken = File.ReadAllText(botTokenFileName);
 
             //Create Bot and Setup and start
             DiscordSocketClient uwuBot = new DiscordSocketClient();
@@ -24,7 +24,7 @@ namespace UwUBot
             }
 
             commandHanlder botCommandHanlder = new commandHanlder(uwuBot);
-            await botCommandHanlder.InstallCommandsAsync();
+            await botCommandHanlder.installCommandsAsync();
 
             await Task.Delay(-1);
         }

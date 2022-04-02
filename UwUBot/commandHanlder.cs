@@ -20,15 +20,15 @@ namespace UwUBot
             this.client = client;
         }
 
-        public async Task InstallCommandsAsync()
+        public async Task installCommandsAsync()
         {
             //Setup EventHandling and insert all Modules
-            client.MessageReceived += HandleTextCommand;
+            client.MessageReceived += handleTextCommandAsync;
             await commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
                                             services: null);
         }
 
-        private async Task HandleTextCommand(SocketMessage message)
+        private async Task handleTextCommandAsync(SocketMessage message)
         {
             SocketUserMessage userMessage = (SocketUserMessage)message;
             if(userMessage == null)

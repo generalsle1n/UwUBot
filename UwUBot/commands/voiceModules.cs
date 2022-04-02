@@ -15,20 +15,20 @@ namespace UwUBot.commands
         private YoutubeClient ytClient = new YoutubeClient();
         
         [Command("play", RunMode = RunMode.Async)]
-        public async Task playMp3(string url)
+        public async Task playMp3Async(string url)
         {
-            await streamToPCMStream(url, (SocketGuildUser)Context.User);        
+            await streamToPcmStreamAsync(url, (SocketGuildUser)Context.User);        
         }
 
         [Command("yt", RunMode = RunMode.Async)]
-        public async Task playYoutube(string url)
+        public async Task playYoutubeAsync(string url)
         {
             string streamUrl = await getYoutubeStreamUrlAsync(url);
-            await streamToPCMStream(streamUrl, (SocketGuildUser)Context.User);
+            await streamToPcmStreamAsync(streamUrl, (SocketGuildUser)Context.User);
         }
 
         [Command("stop", RunMode = RunMode.Async)]
-        public async Task stopAllStreams()
+        public async Task stopAllStreamsAsync()
         {
             SocketGuildUser user = (SocketGuildUser)Context.User;
             SocketVoiceChannel currentVoiceChannel = user.VoiceChannel;
@@ -51,7 +51,7 @@ namespace UwUBot.commands
             Console.WriteLine("");
         }
 
-        private async Task streamToPCMStream(string url, SocketGuildUser user)
+        private async Task streamToPcmStreamAsync(string url, SocketGuildUser user)
         {
             //GetAllData
             SocketVoiceChannel channel = user.VoiceChannel;
