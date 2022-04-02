@@ -1,28 +1,26 @@
 
 # UwUBot
 
-This is an realy simple discord bot that is build with Discord.Net, the bot can play audio from the web and stream the audio to the voicechannel.
-There are currently two sources that can be used to stream (An direct url to an audio file, or you can enter an youtube url)
-
+This is a really simple discord bot that is built with Discord.Net, the bot can play audio from the web and stream the audio to the voice channel. There are currently two sources that can be used to stream (An direct url to an audio file, or you can enter a youtube url)
 
 ## Roadmap
 
-- Add an help command that respond with all available commands
+- Add a help command that responds with all available commands
 
-- Add an user management module for usermanagement (Permission, Ban/Unban etc.)
-- Add an module for temporary channels (which only you or your friend can seee) that are created
+- Add a user management module for user-management (Permission, Ban/Unban etc.)
+- Add a module for temporary channels (which only you or your friend can see) that are created
 
 
 # Setup
 
 ### Prerequisite
 
-You need to setup an discord application in the discord [developer portal](https://discord.com/developers/applications/)
+You need to set up a discord application in the discord [developer portal](https://discord.com/developers/applications/)
 
-Here you [read](https://discordpy.readthedocs.io/en/stable/discord.html) how to setup an bot in the developer portal
+Here you [read](https://discordpy.readthedocs.io/en/stable/discord.html) how to set up a bot in the developer portal
 
 
-At the moment you just need the follwing permissions:
+At the moment you just need the following permissions:
 - "Send Message"
 - "Manage Messaged"
 - "Connect"
@@ -30,8 +28,8 @@ At the moment you just need the follwing permissions:
 
 
 ### Installation
-Download and extract the ZIPFile with the binary.
-There is an File called "botToken.tkt", you need to open and insert youre discord bot client secret.
+Download and extract the zip file with the binary.
+There is a File called "botToken.tkt", you need to open and insert your discord bot client secret.
 You get the secret from the developer portal
 
     
@@ -45,10 +43,10 @@ UwUBot.exe
 ### Discord Commands
 - !play (Url to an Audiofile)
 - !yt (Url to an Youtube video)
-- !stop (This command stops the current Audio Stream and the bot disconntects from the channel)
+- !stop (This command stops the current Audio Stream and the bot disconnects from the channel)
 ## Bugs
 
-If you find and problem/bug just feel free to create an isue on github
+If you find and problem/bug just feel free to create an issue on Github
 
 ## Acknowledgements
 
