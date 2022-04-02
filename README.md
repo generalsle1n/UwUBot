@@ -54,3 +54,4 @@ If you find and problem/bug just feel free to create an isue on github
 
  - [Discord.Net](https://github.com/discord-net/Discord.Nets)
  - [YoutubeExplode](https://github.com/Tyrrrz/YoutubeExplode)
+ - [FFMPEG](https://github.com/FFmpeg/FFmpeg)
